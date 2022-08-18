@@ -205,18 +205,6 @@ message SignalRejectReply {
 
 }
 
-message SignalGetRoomByGroupIDReq {
-  string opUserID = 1;
-  string groupID = 2;
-}
-
-message SignalGetRoomByGroupIDReply {
-  InvitationInfo invitation = 1;
-  repeated string onConnectingUserIDList = 2;
-  string token = 3;
-  string roomID = 4;
-  string liveURL = 5;
-}
 
 message SignalMessageAssembleReq {
  SignalReq signalReq = 1;
@@ -228,6 +216,19 @@ message SignalMessageAssembleResp {
  bool isPass = 2;
  SignalResp signalResp = 3;
  MsgData msgData = 4;
+}
+
+message SignalGetRoomByGroupIDReq {
+  string opUserID = 1;
+  string groupID = 2;
+}
+
+message SignalGetRoomByGroupIDReply {
+  InvitationInfo invitation = 1;
+  repeated string onConnectingUserIDList = 2;
+  string token = 3;
+  string roomID = 4;
+  string liveURL = 5;
 }
 
 service RtcService {
