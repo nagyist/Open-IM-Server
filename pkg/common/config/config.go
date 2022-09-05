@@ -161,6 +161,8 @@ type config struct {
 	Etcd struct {
 		EtcdSchema string   `yaml:"etcdSchema"`
 		EtcdAddr   []string `yaml:"etcdAddr"`
+		UserName   string   `yaml:"userName"`
+		Password   string   `yaml:"password"`
 	}
 	Log struct {
 		StorageLocation       string   `yaml:"storageLocation"`
@@ -222,6 +224,8 @@ type config struct {
 	}
 
 	Kafka struct {
+		UserName  string `yaml:"userName"`
+		Password  string `yaml:"password"`
 		Ws2mschat struct {
 			Addr  []string `yaml:"addr"`
 			Topic string   `yaml:"topic"`

@@ -61,10 +61,12 @@ services:
     container_name: zookeeper
     volumes:
       - /etc/localtime:/etc/localtime
+      - ../docker-compose_cfg:/opt/zookeeper-3.4.13/conf
+      - ../docker-compose_cfg:/opt/zookeeper-3.4.13/secrets/
     environment:
       TZ: Asia/Shanghai
+      SERVER_JVMFLAGS: -Djava.security.auth.login.config=/opt/zookeeper-3.4.13/secrets/server_jaas.conf
     restart: always
-
 
   kafka:
     image: wurstmeister/kafka
@@ -81,8 +83,20 @@ services:
       KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT"
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
+      KAFKA_SUPER_USERS: User:openIM
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+      KAFKA_OPTS: -Djava.security.auth.login.config=/opt/kafka/secrets/server_jaas.conf
+
     depends_on:
       - zookeeper
+    
+    volumes:
+      - ../docker-compose_cfg:/opt/kafka/secrets/
 
   etcd:
     image: quay.io/coreos/etcd
@@ -96,7 +110,10 @@ services:
     environment:
       ETCDCTL_API: 3
     restart: always
-    command: /usr/local/bin/etcd --name etcd0 --data-dir /etcd-data --listen-client-urls http://0.0.0.0:2379 --advertise-client-urls http://0.0.0.0:2379 --listen-peer-urls http://0.0.0.0:2380 --initial-advertise-peer-urls http://0.0.0.0:2380 --initial-cluster etcd0=http://0.0.0.0:2380 --initial-cluster-token tkn --initial-cluster-state new
+    command: 
+      - /usr/local/bin/etcd --name etcd0 --data-dir /etcd-data --listen-client-urls http://0.0.0.0:2379 --advertise-client-urls http://0.0.0.0:2379 --listen-peer-urls http://0.0.0.0:2380 --initial-advertise-peer-urls http://0.0.0.0:2380 --initial-cluster etcd0=http://0.0.0.0:2380 --initial-cluster-token tkn --initial-cluster-state new
+      - etcdctl user add root:openIM
+      - etcdctl auth enable
 
   minio:
     image: minio/minio

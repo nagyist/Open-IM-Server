@@ -7,6 +7,8 @@ serverversion: 2.3.1
 etcd:
   etcdSchema: openim  #默认即可
   etcdAddr: [ 127.0.0.1:2379 ] #单机部署时，默认即可
+  userName: root
+  password: openIM
 
 k8sMod: false #开启k8s模式 使用pod里面环境变量请求services调用服务 而并非etcd
 
@@ -44,6 +46,8 @@ redis:
   enableCluster: false #如果外部redis以集群方式启动，需要打开此开关
 
 kafka:
+  userName: openIM
+  password: openIM123
   ws2mschat:
     addr: [ 127.0.0.1:9092 ] #kafka配置，默认即可
     topic: "ws2ms_chat" #用于mongo和mysql保存消息
@@ -61,7 +65,7 @@ kafka:
     msgToMongo: mongo_ex
     msgToMySql: mysql
     msgToPush: push
-
+  
 
 
 #---------------Internal service configuration---------------------#
