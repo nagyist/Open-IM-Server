@@ -104,7 +104,7 @@ services:
       KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.auth.SimpleAclAuthorizer
       KAFKA_SUPER_USERS: User:openIM
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true" 
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper_sasl:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       # KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_OPTS: -Djava.security.auth.login.config=/opt/kafka/secrets/server_jaas.conf
