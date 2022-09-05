@@ -62,8 +62,8 @@ services:
     container_name: zookeeper
     volumes:
       - /etc/localtime:/etc/localtime
-      - ../docker-compose_cfg/:/opt/zookeeper-3.4.13/conf
-      - ../docker-compose_cfg/:/opt/zookeeper-3.4.13/secrets/
+      - ./docker-compose_cfg/:/opt/zookeeper-3.4.13/conf
+      - ./docker-compose_cfg/:/opt/zookeeper-3.4.13/secrets/
     environment:
       TZ: Asia/Shanghai
       SERVER_JVMFLAGS: -Djava.security.auth.login.config=/opt/zookeeper-3.4.13/secrets/server_jaas.conf
@@ -97,7 +97,7 @@ services:
       - zookeeper
     
     volumes:
-      - ../docker-compose_cfg/:/opt/kafka/secrets/
+      - ./docker-compose_cfg/:/opt/kafka/secrets/
 
   etcd:
     image: quay.io/coreos/etcd
