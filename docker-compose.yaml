@@ -37,7 +37,7 @@ services:
       - MONGO_INITDB_DATABASE=openIM2
 
     restart: always
-    command: mongod --wiredTigerCacheSizeGB 1 --auth
+    command: mongod --wiredTigerCacheSizeGB 1 --auth --authenticationDatabase=admin
 
   redis:
     image: redis
