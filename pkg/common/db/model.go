@@ -2,18 +2,21 @@ package db
 
 import (
 	"Open_IM/pkg/common/config"
+	"strings"
+
 	"github.com/dtm-labs/rockscache"
 	"go.mongodb.org/mongo-driver/x/bsonx"
-	"strings"
 
 	//"Open_IM/pkg/common/log"
 	"Open_IM/pkg/utils"
 	"fmt"
+
 	go_redis "github.com/go-redis/redis/v8"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"gopkg.in/mgo.v2"
 	"time"
+
+	"gopkg.in/mgo.v2"
 
 	"context"
 	//"go.mongodb.org/mongo-driver/bson"
@@ -67,6 +70,7 @@ func init() {
 				config.Config.Mongo.DBMaxPoolSize)
 		}
 	}
+	fmt.Println("mongo uri", uri)
 	mongoClient, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		fmt.Println(" mongo.Connect  failed, try ", utils.GetSelfFuncName(), err.Error(), uri)
