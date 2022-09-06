@@ -30,8 +30,8 @@ services:
       - TZ=Asia/Shanghai
       # cache
       - wiredTigerCacheSizeGB=1
-      - MONGO_USERNAME=root
-      - MONGO_PASSWORD=openIM12345678
+      # - MONGO_USERNAME=root
+      # - MONGO_PASSWORD=openIM12345678
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=openIM12345678
       - MONGO_INITDB_DATABASE=openIM2
