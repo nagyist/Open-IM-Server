@@ -35,9 +35,10 @@ services:
       # - MONGO_INITDB_ROOT_USERNAME=root
       # - MONGO_INITDB_ROOT_PASSWORD=openIM12345678
       # - MONGO_INITDB_DATABASE=openIM3
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: openIM12345678
       TZ: Asia/Shanghai
+      
 
     restart: always
     command: mongod --wiredTigerCacheSizeGB 1
