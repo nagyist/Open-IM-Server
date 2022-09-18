@@ -37,6 +37,13 @@ func ResetPassword(account, password string) error {
 	return db.DB.MysqlDB.DefaultGormDB().Table("registers").Where("account = ?", account).Updates(&r).Error
 }
 
+func UnregisterUser(account, userID string) error {
+	r := db.Register{
+		IsUnregister: true,
+	}
+	return db.DB.MysqlDB.DefaultGormDB().Table("registers").Where("account = ? and user_id = ?", account, userID).Updates(&r).Error
+}
+
 func GetRegisterAddFriendList(showNumber, pageNumber int32) ([]string, error) {
 	var IDList []string
 	var err error

@@ -512,6 +512,7 @@ type config struct {
 		JoinDepartmentGroups                    bool     `yaml:"joinDepartmentGroups"`
 		OaNotification                          bool     `yaml:"oaNotification"`
 		CreateOrganizationUserAndJoinDepartment bool     `json:"createOrganizationUserAndJoinDepartment"`
+		UserUnregisterName                      string   `yaml:"userUnregisterName"`
 	}
 	Rtc struct {
 		SignalTimeout string `yaml:"signalTimeout"`

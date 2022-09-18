@@ -6,10 +6,11 @@ type Register struct {
 	Account        string `gorm:"column:account;primary_key;type:char(255)" json:"account"`
 	Password       string `gorm:"column:password;type:varchar(255)" json:"password"`
 	Ex             string `gorm:"column:ex;size:1024" json:"ex"`
-	UserID         string `gorm:"column:user_id;type:varchar(255)" json:"userID"`
+	UserID         string `gorm:"column:user_id;primary_key;type:varchar(255)" json:"userID"`
 	AreaCode       string `gorm:"column:area_code;type:varchar(255)"`
 	InvitationCode string `gorm:"column:invitation_code;type:varchar(255)"`
 	RegisterIP     string `gorm:"column:register_ip;type:varchar(255)"`
+	IsUnregister   bool   `gorm:"column:is_unregister"`
 }
 
 type Invitation struct {

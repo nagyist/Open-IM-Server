@@ -36,6 +36,7 @@ func main() {
 		authRouterGroup.POST("/login", register.Login)
 		authRouterGroup.POST("/reset_password", register.ResetPassword)
 		authRouterGroup.POST("/check_login", register.CheckLoginLimit)
+		authRouterGroup.POST("/unregister", register.Unregister)
 	}
 	demoRouterGroup := r.Group("/auth")
 	{

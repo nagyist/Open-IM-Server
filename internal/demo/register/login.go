@@ -46,6 +46,11 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"errCode": constant.NotRegistered, "errMsg": "Mobile phone number is not registered"})
 		return
 	}
+	if r.IsUnregister {
+		log.NewError(params.OperationID, utils.GetSelfFuncName())
+		c.JSON(http.StatusOK, gin.H{"errCode": constant.NotRegistered, "errMsg": "Mobile phone number is alreaday unregister"})
+		return
+	}
 	if r.Password != params.Password {
 		log.NewError(params.OperationID, "password  err", params.Password, account, r.Password, r.Account)
 		c.JSON(http.StatusOK, gin.H{"errCode": constant.PasswordErr, "errMsg": "password err"})
