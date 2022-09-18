@@ -3,8 +3,8 @@ package db
 import "time"
 
 type Register struct {
-	Account        string `gorm:"column:account;index:sendTime;type:char(255)" json:"account"`
-	UserID         string `gorm:"column:user_id;index:sendTime;type:varchar(255)" json:"userID"`
+	Account        string `gorm:"column:account;primary_key;type:char(255)" json:"account"`
+	UserID         string `gorm:"column:user_id;type:varchar(255)" json:"userID"`
 	Password       string `gorm:"column:password;type:varchar(255)" json:"password"`
 	Ex             string `gorm:"column:ex;size:1024" json:"ex"`
 	AreaCode       string `gorm:"column:area_code;type:varchar(255)"`
