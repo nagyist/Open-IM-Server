@@ -42,7 +42,7 @@ func Unregister(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"errCode": 400, "errMsg": errMsg})
 		return
 	}
-	if !utils.IsContain(opUserID, config.Config.Manager.AppManagerUid) || req.UserID != opUserID {
+	if !utils.IsContain(opUserID, config.Config.Manager.AppManagerUid) && req.UserID != opUserID {
 		log.NewError(req.OperationID, *req, "no permission", opUserID)
 		c.JSON(http.StatusBadRequest, gin.H{"errCode": 400, "errMsg": "no permission"})
 		return
