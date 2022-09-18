@@ -46,6 +46,7 @@ func main() {
 		demoRouterGroup.POST("/login", register.Login)
 		demoRouterGroup.POST("/reset_password", register.ResetPassword)
 		demoRouterGroup.POST("/check_login", register.CheckLoginLimit)
+		authRouterGroup.POST("/unregister", register.Unregister)
 	}
 
 	//deprecated
