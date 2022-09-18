@@ -43,12 +43,7 @@ func Login(c *gin.Context) {
 	r, err := im_mysql_model.GetRegister(account, params.AreaCode, params.UserID)
 	if err != nil {
 		log.NewError(params.OperationID, "user have not register", params.Password, account, err.Error())
-		c.JSON(http.StatusOK, gin.H{"errCode": constant.NotRegistered, "errMsg": "Mobile phone number is not registered"})
-		return
-	}
-	if r.IsUnregister {
-		log.NewError(params.OperationID, utils.GetSelfFuncName())
-		c.JSON(http.StatusOK, gin.H{"errCode": constant.NotRegistered, "errMsg": "Mobile phone number is alreaday unregister"})
+		c.JSON(http.StatusOK, gin.H{"errCode": constant.NotRegistered, "errMsg": "Mobile phone number is not registered or unregister"})
 		return
 	}
 	if r.Password != params.Password {
