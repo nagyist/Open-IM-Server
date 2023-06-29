@@ -1,29 +1,30 @@
 syntax = "proto3";
-import "Open-IM-Server/pkg/proto/sdk_ws/ws.proto";
-option go_package = "Open_IM/pkg/proto/relay;pbRelay";
-package relay;
+package OpenIMServer.msggateway;
+import "sdkws/sdkws.proto";
+option go_package = "github.com/OpenIMSDK/Open-IM-Server/pkg/proto/msggateway";
 
 message OnlinePushMsgReq {
-  string OperationID = 1;
-  server_api_params.MsgData msgData = 2;
-  string pushToUserID = 3;
+  sdkws.MsgData msgData = 1;
+  string pushToUserID = 2;
 }
+
 message OnlinePushMsgResp{
-repeated SingleMsgToUserPlatform resp = 1;
+    repeated SingleMsgToUserPlatform resp = 1;
 }
-message SingelMsgToUserResultList{
+
+message SingleMsgToUserResults {
   string userID =1;
   repeated SingleMsgToUserPlatform resp = 2;
   bool onlinePush = 3;
 
 }
 message OnlineBatchPushOneMsgReq{
-  string OperationID = 1;
-  server_api_params.MsgData msgData = 2;
-  repeated string pushToUserIDList = 3;
+  sdkws.MsgData msgData = 1;
+  repeated string pushToUserIDs = 2;
 }
+
 message OnlineBatchPushOneMsgResp{
-  repeated SingelMsgToUserResultList singlePushResult= 1;
+  repeated SingleMsgToUserResults singlePushResult= 1;
 }
 //message SendMsgByWSReq{
 //  string SendID = 1;
@@ -42,16 +43,14 @@ message SingleMsgToUserPlatform{
   string  RecvID = 2;
   int32   RecvPlatFormID = 3;
 }
+
 message GetUsersOnlineStatusReq{
-  repeated string  userIDList = 1;
-  string  operationID = 2;
-  string opUserID = 3;
+  repeated string  userIDs = 1;
 }
+
 message GetUsersOnlineStatusResp{
-  int32  errCode = 1;
-  string errMsg = 2;
-  repeated SuccessResult successResult = 3;
-  repeated FailedDetail failedResult = 4;
+  repeated SuccessResult successResult = 1;
+  repeated FailedDetail failedResult = 2;
   message SuccessDetail{
     string platform = 1;
     string status = 2;
@@ -59,24 +58,21 @@ message GetUsersOnlineStatusResp{
     bool isBackground = 4;
   }
   message FailedDetail{
-    string userID = 3;
-    int32  errCode = 1;
-    string errMsg = 2;
+    string userID = 1;
   }
   message SuccessResult{
     string userID = 1;
     string status = 2;
     repeated SuccessDetail detailPlatformStatus = 3;
-
   }
 }
-message KickUserOfflineReq{
-  string operationID = 1;
-    int32  platformID = 2;
-  repeated string kickUserIDList = 3;
-}
-message KickUserOfflineResp{
 
+message KickUserOfflineReq{
+  int32  platformID = 1;
+  repeated string kickUserIDList = 2;
+}
+
+message KickUserOfflineResp{
 }
 
 
@@ -87,17 +83,14 @@ message MultiTerminalLoginCheckReq{
     string operationID = 4;
 }
 message MultiTerminalLoginCheckResp{
-    int32   errCode = 1;
-    string  errMsg = 2;
 }
 
-service relay {
+service msgGateway {
   rpc OnlinePushMsg(OnlinePushMsgReq) returns(OnlinePushMsgResp);
   rpc GetUsersOnlineStatus(GetUsersOnlineStatusReq) returns(GetUsersOnlineStatusResp);
   rpc OnlineBatchPushOneMsg(OnlineBatchPushOneMsgReq) returns(OnlineBatchPushOneMsgResp);
   rpc SuperGroupOnlineBatchPushOneMsg(OnlineBatchPushOneMsgReq) returns(OnlineBatchPushOneMsgResp);
   rpc KickUserOffline(KickUserOfflineReq) returns(KickUserOfflineResp);
   rpc MultiTerminalLoginCheck(MultiTerminalLoginCheckReq) returns(MultiTerminalLoginCheckResp);
-  rpc SuperGroupBackgroundOnlinePush(OnlineBatchPushOneMsgReq) returns(OnlineBatchPushOneMsgResp);
 }
 
