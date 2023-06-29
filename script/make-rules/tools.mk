@@ -25,7 +25,7 @@ ANALYSIS_TOOLS = golangci-lint goimports golines go-callvis kube-score
 GENERATION_TOOLS = deepcopy-gen conversion-gen protoc-gen-go cfssl rts codegen
 # Testing tools
 TEST_TOOLS = ginkgo go-junit-report gotests
-# cos tools
+# tenxun cos tools
 COS_TOOLS = coscli coscmd
 # Version control tools
 VERSION_CONTROL_TOOLS = addlicense go-gitlint git-chglog github-release gsemver
@@ -36,7 +36,7 @@ ALL_TOOLS ?= $(ANALYSIS_TOOLS) $(GENERATION_TOOLS) $(TEST_TOOLS) $(VERSION_CONTR
 
 ## tools.install: Install a must tools
 .PHONY: tools.install
-tools.install: $(addprefix tools.install., $(BUILD_TOOLS))
+tools.install: $(addprefix tools.verify., $(BUILD_TOOLS))
  
 ## tools.install-all: Install all tools
 .PHONY: tools.install-all
@@ -131,21 +131,34 @@ install.github-release:
 	@$(GO) install github.com/github-release/github-release@latest
 
 ## install.coscli: Install coscli, used to upload files to cos
+# example: ./coscli  cp/sync -r  /home/off-line/docker-off-line/ cos://openim-1306374445/openim/image/amd/off-line/off-line/ -e cos.ap-guangzhou.myqcloud.com
+# https://cloud.tencent.com/document/product/436/71763
 .PHONY: install.coscli
 install.coscli:
-	@wget -q https://github.com/tencentyun/coscli/releases/download/v0.10.2-beta/coscli-linux -O ${HOME}/bin/coscli
-	@chmod +x ${HOME}/bin/coscli
+	@wget -q https://ghproxy.com/https://github.com/tencentyun/coscli/releases/download/v0.13.0-beta/coscli-linux -O ${TOOLS_DIR}/coscli
+	@chmod +x ${TOOLS_DIR}/coscli
 
 ## install.coscmd: Install coscmd, used to upload files to cos
 .PHONY: install.coscmd
 install.coscmd:
 	@if which pip &>/dev/null; then pip install coscmd; else pip3 install coscmd; fi
 
+## install.delve: Install delve, used to debug go program
+.PHONY: install.delve
+install.delve:
+	@$(GO) install github.com/go-delve/delve/cmd/dlv@latest
+
+## install.air: Install air, used to hot reload go program
+.PHONY: install.air
+install.air:
+	@$(GO) install github.com/cosmtrek/air@latest
+
 ## install.gvm: Install gvm, gvm is a Go version manager, built on top of the official go tool.
+# github: https://github.com/moovweb/gvm
 .PHONY: install.gvm
 install.gvm:
 	@echo "===========> Installing gvm,The default installation path is ~/.gvm/script/gvm"
-	@bash < <(curl -s -S -L https://raw.gitee.com/moovweb/gvm/master/binscripts/gvm-installer)
+	@bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 	@$(shell source /root/.gvm/script/gvm)
 
 ## install.golines: Install golines, used to format long lines
@@ -202,11 +215,6 @@ install.richgo:
 .PHONY: install.rts
 install.rts:
 	@$(GO) install github.com/galeone/rts/cmd/rts@latest
-
-## install.codegen: Install code generator, used to generate code
-.PHONY: install.codegen
-install.codegen:
-	@$(GO) install ${ROOT_DIR}/tools/codegen/codegen.go
 
 ## tools.help: Display help information about the tools package
 .PHONY: tools.help
