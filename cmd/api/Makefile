@@ -1,8 +1,7 @@
 .PHONY: all build run gotool install clean help
 
-NAME=open_im_cms_api
+NAME=open_im_api
 BIN_DIR=../../bin/
-
 
 OS:= $(or $(os),linux)
 ARCH:=$(or $(arch),amd64)
@@ -19,7 +18,7 @@ BINARY_NAME=${NAME}
 endif
 
 build:
-	CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH} go build -ldflags="-w -s"
+	CGO_ENABLED=0 GOOS=${OS} GOARCH=${ARCH}; go build -ldflags="-w -s" -o ${BINARY_NAME}
 
 run:
 	@go run ./
@@ -33,4 +32,3 @@ install:build
 
 clean:
 	@if [ -f ${BINARY_NAME} ] ; then rm ${BINARY_NAME} ; fi
-
